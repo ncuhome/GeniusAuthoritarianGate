@@ -12,20 +12,20 @@ type Claims struct {
 func New(key []byte, validate time.Duration) Generator {
 	return Generator{
 		key:      key,
-		validate: validate,
+		Validate: validate,
 	}
 }
 
 type Generator struct {
 	key      []byte
-	validate time.Duration
+	Validate time.Duration
 }
 
 func (a Generator) NewToken() (string, error) {
 	return jwt.NewWithClaims(jwt.SigningMethodES256, &Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(a.validate)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(a.Validate)),
 		},
 	}).SignedString(a.key)
 }

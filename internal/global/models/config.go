@@ -1,7 +1,9 @@
 package models
 
 type Config struct {
-	Addr    string
-	Timeout uint   `config:"omitempty"`
-	Groups  string `config:"omitempty"`
+	Addr          string
+	Timeout       uint   `config:"omitempty"`
+	Groups        string `config:"omitempty"`
+	JwtKey        string `config:"omitempty"`
+	LoginValidate uint   `config:"omitempty"`
 }

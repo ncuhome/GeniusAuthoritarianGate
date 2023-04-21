@@ -3,6 +3,7 @@ package gateway
 import (
 	gateway "github.com/Mmx233/Gateway"
 	"github.com/gin-gonic/gin"
+	"github.com/ncuhome/GeniusAuthoritarianGate/internal/api/middlewares"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/util"
 	"github.com/sirupsen/logrus"
@@ -11,6 +12,8 @@ import (
 func Run(addr ...string) error {
 	gin.SetMode(gin.ReleaseMode)
 	E := gin.Default()
+
+	E.Use(middlewares.Auth(global.Config.JwtKey))
 
 	E.Use(gateway.Proxy(&gateway.ApiConf{
 		Addr:   global.Config.Addr,
