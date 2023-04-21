@@ -2,5 +2,5 @@ package models
 
 type Config struct {
 	Addr    string
-	Timeout uint
+	Timeout uint `config:"omitempty"`
 }

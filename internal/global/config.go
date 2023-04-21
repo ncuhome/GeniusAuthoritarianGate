@@ -9,4 +9,8 @@ var Config models.Config
 
 func initConfig() {
 	EnvConfig.Load("", &Config)
+
+	if Config.Timeout == 0 {
+		Config.Timeout = 30
+	}
 }
