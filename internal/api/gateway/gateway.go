@@ -18,7 +18,7 @@ func Run(addr ...string) error {
 
 	E.Use(gateway.Proxy(&gateway.ApiConf{
 		Addr:      global.Config.Addr,
-		Transport: util.Http.Client.Transport,
+		Transport: util.HttpTransport,
 		ErrorHandler: func(_ http.ResponseWriter, _ *http.Request, e error) {
 			log.Errorln("request backend failed:", e)
 		},
