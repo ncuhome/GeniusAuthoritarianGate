@@ -22,7 +22,7 @@ type Generator struct {
 }
 
 func (a Generator) NewToken() (string, error) {
-	return jwt.NewWithClaims(jwt.SigningMethodES256, &Claims{
+	return jwt.NewWithClaims(jwt.SigningMethodHS256, &Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(a.Validate)),
