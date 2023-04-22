@@ -1,7 +1,7 @@
 github.com/Mmx233/EnvConfig v0.0.2 h1:u6GNM7rED9Knmhe2QAnEeUorSW5PmKC8KzAK+03WPow=
 github.com/Mmx233/EnvConfig v0.0.2/go.mod h1:BS1qukaUFWqAGzWzMhhAUuPCi7A8KHvhpZt+2QU/IJc=
-github.com/Mmx233/Gateway v0.0.9 h1:AM+OtfyUw28rG2UOGc8TC0Q3sEyzsoo4ZMaYmrH1XCs=
-github.com/Mmx233/Gateway v0.0.9/go.mod h1:uDGvnl49umL+c8SbAUnwut4Eg5w1k7yRDF4HKWlMPy8=
+github.com/Mmx233/Gateway v0.1.0 h1:DZHGjKhLBYovEb7EAqvMprFJngh4a5ycWtguFovbTF8=
+github.com/Mmx233/Gateway v0.1.0/go.mod h1:uDGvnl49umL+c8SbAUnwut4Eg5w1k7yRDF4HKWlMPy8=
 github.com/Mmx233/tool v0.6.9 h1:K/kYT8YFlc08H52q8mZvBVNkwsIm1+lQJusoYgiZNWo=
 github.com/Mmx233/tool v0.6.9/go.mod h1:pCKnFmN2yf3u58YjANsQ8261SxI/c8/0wiZhptjRsOk=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
