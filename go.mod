@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/Mmx233/EnvConfig v0.0.2
-	github.com/Mmx233/Gateway v0.0.5
+	github.com/Mmx233/Gateway v0.0.8
 	github.com/Mmx233/tool v0.6.9
 	github.com/gin-gonic/gin v1.9.0
 	github.com/golang-jwt/jwt/v4 v4.5.0
