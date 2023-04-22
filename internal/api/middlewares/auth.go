@@ -45,9 +45,9 @@ func Auth(jwtKey string) gin.HandlerFunc {
 			c.Redirect(302, "/")
 		default:
 			token, e := c.Cookie("token")
-			if e != nil {
+			if e != nil || token == "" {
 				log.Warnln("无法处理 cookie:", e)
-				c.AbortWithStatus(400)
+				util.GoGeniusLogin(c)
 				return
 			}
 
