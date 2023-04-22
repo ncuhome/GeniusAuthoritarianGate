@@ -17,3 +17,4 @@ GeniusAuthoritarian 单体门控程序
 | Groups        | x  |     | 允许访问的组，详见 GeniusAuth Readme，用英文逗号分隔 |
 | JwtKey        | x  | 随机值 |                                     |
 | LoginValidate | x  | 7   | 登录身份保持时间，天                          |
+| WhiteListPath | x  |     | 免鉴权路径，完全匹配，英文逗号分隔                   |
