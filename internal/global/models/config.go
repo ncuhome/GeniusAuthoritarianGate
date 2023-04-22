@@ -8,5 +8,6 @@ type Config struct {
 	Groups string `config:"omitempty"`
 	JwtKey string `config:"omitempty"`
 	// default 7d
-	LoginValidate uint `config:"omitempty"`
+	LoginValidate uint   `config:"omitempty"`
+	WhiteListPath string `config:"omitempty"`
 }

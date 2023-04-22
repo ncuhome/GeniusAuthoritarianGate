@@ -11,6 +11,8 @@ var Config models.Config
 
 var AllowGroups []string
 
+var WhiteListPath []string
+
 func initConfig() {
 	EnvConfig.Load("", &Config)
 
@@ -23,7 +25,11 @@ func initConfig() {
 	if Config.JwtKey == "" {
 		Config.JwtKey = tool.Rand.String(64)
 	}
+
 	if Config.Groups != "" {
 		AllowGroups = strings.Split(strings.TrimSpace(Config.Groups), ",")
+	}
+	if Config.WhiteListPath != "" {
+		WhiteListPath = strings.Split(strings.TrimSpace(Config.WhiteListPath), ",")
 	}
 }

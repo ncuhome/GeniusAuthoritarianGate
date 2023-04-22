@@ -44,6 +44,12 @@ func Auth(jwtKey string) gin.HandlerFunc {
 			c.SetCookie("token", token, int(jwtHandler.Validate.Seconds()), "", "", true, true)
 			c.Redirect(302, "/")
 		default:
+			for _, whiteListPath := range global.WhiteListPath {
+				if c.Request.URL.Path == whiteListPath {
+					return
+				}
+			}
+
 			token, e := c.Cookie("token")
 			if e != nil || token == "" {
 				log.Warnln("无法处理 cookie:", e)
