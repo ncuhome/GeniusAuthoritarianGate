@@ -6,7 +6,7 @@ import (
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/pkg/jwt"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/util"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"time"
 )
 
@@ -26,18 +26,18 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				Groups: global.AllowGroups,
 			})
 			if e != nil {
-				logrus.Errorln("GeniusAuth 身份校验异常:", e)
+				log.Errorln("GeniusAuth 身份校验异常:", e)
 				c.AbortWithStatus(500)
 				return
 			} else if gaRes.Code != 0 {
-				logrus.Errorln("GeniusAuth 身份校验失败:", gaRes.Msg)
+				log.Errorln("GeniusAuth 身份校验失败:", gaRes.Msg)
 				c.String(403, gaRes.Msg)
 				return
 			}
 
 			token, e = jwtHandler.NewToken()
 			if e != nil {
-				logrus.Errorln("生成 token 失败:", e)
+				log.Errorln("生成 token 失败:", e)
 				c.AbortWithStatus(500)
 				return
 			}
@@ -46,14 +46,14 @@ func Auth(jwtKey string) gin.HandlerFunc {
 		default:
 			token, e := c.Cookie("token")
 			if e != nil {
-				logrus.Warnln("无法处理 cookie:", e)
+				log.Warnln("无法处理 cookie:", e)
 				c.AbortWithStatus(400)
 				return
 			}
 
 			valid, e := jwtHandler.VerifyToken(token)
 			if e != nil || !valid {
-				logrus.Warnln("身份校验失败:", e)
+				log.Warnln("身份校验失败:", e)
 				util.GoGeniusLogin(c)
 				return
 			}

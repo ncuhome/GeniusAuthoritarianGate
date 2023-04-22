@@ -6,7 +6,7 @@ import (
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/api/middlewares"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/util"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 func Run(addr ...string) error {
@@ -19,7 +19,7 @@ func Run(addr ...string) error {
 		Addr:   global.Config.Addr,
 		Client: util.Http.Client,
 		ErrorHandler: func(c *gin.Context, e error) {
-			logrus.Errorln("request backend failed:", e)
+			log.Errorln("request backend failed:", e)
 			c.AbortWithStatus(502)
 		},
 		AllowAll: true,
