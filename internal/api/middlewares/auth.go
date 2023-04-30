@@ -18,7 +18,7 @@ func Auth(jwtKey string) gin.HandlerFunc {
 		case "/login":
 			token, ok := c.GetQuery("token")
 			if !ok {
-				c.AbortWithStatus(403)
+				c.String(403, "请求不合法")
 				return
 			}
 			gaRes, e := gaClient.VerifyToken(&ga.RequestVerifyToken{
@@ -27,7 +27,7 @@ func Auth(jwtKey string) gin.HandlerFunc {
 			})
 			if e != nil {
 				log.Errorln("GeniusAuth 身份校验异常:", e)
-				c.AbortWithStatus(500)
+				c.String(500, "身份校验异常")
 				return
 			} else if gaRes.Code != 0 {
 				log.Errorln("GeniusAuth 身份校验失败:", gaRes.Msg)
