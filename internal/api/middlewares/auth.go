@@ -11,7 +11,11 @@ import (
 )
 
 func Auth(jwtKey string) gin.HandlerFunc {
-	gaClient := ga.NewClient("v.ncuos.com", util.Http.Client)
+	gaClient := ga.NewClient(
+		"v.ncuos.com",
+		global.Config.AppCode, global.Config.AppSecret,
+		util.Http.Client,
+	)
 	jwtHandler := jwt.New([]byte(jwtKey), time.Hour*24*time.Duration(global.Config.LoginValidate))
 	return func(c *gin.Context) {
 		switch c.Request.URL.Path {
@@ -21,9 +25,8 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				c.String(403, "请求不合法")
 				return
 			}
-			gaRes, e := gaClient.VerifyToken(&ga.RequestVerifyToken{
-				Token:  token,
-				Groups: global.AllowGroups,
+			gaRes, e := gaClient.VerifyToken(ga.RequestVerifyToken{
+				Token: token,
 			})
 			if e != nil {
 				log.Errorln("GeniusAuth 身份校验异常:", e)
