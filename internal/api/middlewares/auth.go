@@ -26,7 +26,8 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				return
 			}
 			gaRes, e := gaClient.VerifyToken(ga.RequestVerifyToken{
-				Token: token,
+				Token:    token,
+				ClientIp: c.ClientIP(),
 			})
 			if e != nil {
 				log.Errorln("GeniusAuth 身份校验异常:", e)
