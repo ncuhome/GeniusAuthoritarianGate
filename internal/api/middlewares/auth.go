@@ -22,7 +22,12 @@ func Auth(jwtKey string) gin.HandlerFunc {
 		case "/login":
 			token, ok := c.GetQuery("token")
 			if !ok {
-				c.String(403, "请求不合法")
+				tokenCookie, err := c.Cookie("token")
+				if err != nil || tokenCookie == "" {
+					util.GoGeniusLogin(c)
+				} else {
+					c.Redirect(302, "/")
+				}
 				return
 			}
 			gaRes, e := gaClient.VerifyToken(ga.RequestVerifyToken{
