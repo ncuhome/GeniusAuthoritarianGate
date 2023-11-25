@@ -31,11 +31,11 @@ func (a Generator) NewToken() (string, error) {
 }
 
 func (a Generator) VerifyToken(token string) (bool, error) {
-	t, e := jwt.ParseWithClaims(token, &Claims{}, func(t *jwt.Token) (interface{}, error) {
+	t, err := jwt.ParseWithClaims(token, &Claims{}, func(t *jwt.Token) (interface{}, error) {
 		return a.key, nil
 	})
-	if e != nil {
-		return false, e
+	if err != nil {
+		return false, err
 	}
 	return t.Valid, nil
 }

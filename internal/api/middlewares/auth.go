@@ -30,12 +30,12 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				}
 				return
 			}
-			gaRes, e := gaClient.VerifyToken(ga.RequestVerifyToken{
+			gaRes, err := gaClient.VerifyToken(ga.RequestVerifyToken{
 				Token:    token,
 				ClientIp: c.ClientIP(),
 			})
-			if e != nil {
-				log.Errorln("GeniusAuth 身份校验异常:", e)
+			if err != nil {
+				log.Errorln("GeniusAuth 身份校验异常:", err)
 				c.String(500, "身份校验异常")
 				return
 			} else if gaRes.Code != 0 {
@@ -44,9 +44,9 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				return
 			}
 
-			token, e = jwtHandler.NewToken()
-			if e != nil {
-				log.Errorln("生成 token 失败:", e)
+			token, err = jwtHandler.NewToken()
+			if err != nil {
+				log.Errorln("生成 token 失败:", err)
 				c.AbortWithStatus(500)
 				return
 			}
@@ -59,16 +59,16 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				}
 			}
 
-			token, e := c.Cookie("token")
-			if e != nil || token == "" {
-				log.Warnln("无法处理 cookie:", e)
+			token, err := c.Cookie("token")
+			if err != nil || token == "" {
+				log.Warnln("无法处理 cookie:", err)
 				util.GoGeniusLogin(c)
 				return
 			}
 
-			valid, e := jwtHandler.VerifyToken(token)
-			if e != nil || !valid {
-				log.Warnln("身份校验失败:", e)
+			valid, err := jwtHandler.VerifyToken(token)
+			if err != nil || !valid {
+				log.Warnln("身份校验失败:", err)
 				util.GoGeniusLogin(c)
 				return
 			}
