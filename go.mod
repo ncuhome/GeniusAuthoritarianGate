@@ -7,7 +7,7 @@ require (
 	github.com/Mmx233/Gateway/v2 v2.0.6
 	github.com/Mmx233/tool v0.7.3
 	github.com/gin-gonic/gin v1.9.1
-	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/golang-jwt/jwt/v5 v5.1.0
 	github.com/ncuhome/GeniusAuthoritarianClient v1.1.3
 	github.com/sirupsen/logrus v1.9.3
 )
