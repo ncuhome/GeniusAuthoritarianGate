@@ -30,7 +30,7 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				}
 				return
 			}
-			gaRes, err := gaClient.VerifyToken(ga.RequestVerifyToken{
+			gaRes, err := gaClient.VerifyToken(&ga.RequestVerifyToken{
 				Token:    token,
 				ClientIp: c.ClientIP(),
 			})
