@@ -4,19 +4,29 @@ import (
 	"github.com/gin-gonic/gin"
 	ga "github.com/ncuhome/GeniusAuthoritarianClient"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
-	"github.com/ncuhome/GeniusAuthoritarianGate/internal/pkg/jwt"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/util"
+	refreshTokenRpc "github.com/ncuhome/GeniusAuthoritarianRefreshTokenRpc"
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"time"
 )
 
-func Auth(jwtKey string) gin.HandlerFunc {
+func Auth() (gin.HandlerFunc, error) {
 	gaClient := ga.NewClient(
 		"v.ncuos.com",
 		global.Config.AppCode, global.Config.AppSecret,
 		util.Http.Client,
 	)
-	jwtHandler := jwt.New([]byte(jwtKey), time.Hour*24*time.Duration(global.Config.LoginValidate))
+	rpcClient, err := refreshTokenRpc.NewRpc("genius-token-rpc.ncuos.com:443", &refreshTokenRpc.Config{
+		AppCode:   global.Config.AppCode,
+		AppSecret: global.Config.AppSecret,
+	})
+	if err != nil {
+		return nil, err
+	}
+	validate := int64((time.Duration(global.Config.LoginValidate) * time.Hour * 24).Seconds())
 	return func(c *gin.Context) {
 		switch c.Request.URL.Path {
 		case "/login":
@@ -31,8 +41,10 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				return
 			}
 			gaRes, err := gaClient.VerifyToken(&ga.RequestVerifyToken{
-				Token:    token,
-				ClientIp: c.ClientIP(),
+				Token:     token,
+				ClientIp:  c.ClientIP(),
+				GrantType: "refresh_token",
+				Valid:     validate,
 			})
 			if err != nil {
 				log.Errorln("GeniusAuth 身份校验异常:", err)
@@ -44,13 +56,9 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				return
 			}
 
-			token, err = jwtHandler.NewToken()
-			if err != nil {
-				log.Errorln("生成 token 失败:", err)
-				c.AbortWithStatus(500)
-				return
-			}
-			c.SetCookie("token", token, int(jwtHandler.Validate.Seconds()), "", "", true, true)
+			// refreshToken 不能一直发送到服务端，但是此处没有前端不好写，先临时这样处理
+			c.SetCookie("refreshToken", gaRes.Data.RefreshToken, int(validate), "", "", true, true)
+			c.SetCookie("accessToken", gaRes.Data.AccessToken, int(time.Minute*5), "", "", true, true)
 			c.Redirect(302, "/")
 		default:
 			for _, whiteListPath := range global.WhiteListPath {
@@ -59,19 +67,37 @@ func Auth(jwtKey string) gin.HandlerFunc {
 				}
 			}
 
-			token, err := c.Cookie("token")
-			if err != nil || token == "" {
-				log.Warnln("无法处理 cookie:", err)
-				util.GoGeniusLogin(c)
-				return
+			accessToken, err := c.Cookie("accessToken")
+			if err != nil || accessToken == "" {
+				log.Warnln("无法获取 access cookie:", err)
+			} else {
+				_, err = rpcClient.VerifyAccessToken(context.Background(), accessToken)
+				if err != nil {
+					log.Warnln("验证 accessToken 失败:", err)
+				} else {
+					return
+				}
 			}
 
-			valid, err := jwtHandler.VerifyToken(token)
-			if err != nil || !valid {
-				log.Warnln("身份校验失败:", err)
-				util.GoGeniusLogin(c)
-				return
+			// Refresh accessToken
+			refreshToken, err := c.Cookie("refreshToken")
+			if err != nil || accessToken == "" {
+				log.Warnln("无法获取 refresh cookie:", err)
+			} else {
+				result, err := rpcClient.RefreshToken(context.Background(), refreshToken)
+				if err != nil {
+					if status.Code(err) != codes.Unauthenticated {
+						log.Errorln("刷新 token 异常:", err)
+						c.String(500, "刷新 token 异常")
+						return
+					}
+				} else {
+					c.SetCookie("accessToken", result.AccessToken, int(time.Minute*5), "", "", true, true)
+					return
+				}
 			}
+
+			util.GoGeniusLogin(c)
 		}
-	}
+	}, nil
 }

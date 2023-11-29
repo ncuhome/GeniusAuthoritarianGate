@@ -16,6 +16,5 @@ GeniusAuthoritarian 单体门控程序
 | AppCode       | √  |     | 在 GeniusAuth 后台申请 |
 | AppSecret     | √  |     | 同上                |
 | Timeout       | x  | 30  | 代理请求超时时间，秒        |
-| JwtKey        | x  | 随机值 |                   |
-| LoginValidate | x  | 7   | 登录身份保持时间，天        |
+| LoginValidate | x  | 7   | 登录身份保持时间，天，7-30    |
 | WhiteListPath | x  |     | 免鉴权路径，完全匹配，英文逗号分隔 |
