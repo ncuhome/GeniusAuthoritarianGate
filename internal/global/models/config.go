@@ -5,7 +5,6 @@ type Config struct {
 	// default 30s
 	Timeout uint `config:"omitempty"`
 
-	JwtKey string `config:"omitempty"`
 	// default 7d
 	LoginValidate uint   `config:"omitempty"`
 	WhiteListPath string `config:"omitempty"`

@@ -14,7 +14,11 @@ func Run(addr ...string) error {
 	gin.SetMode(gin.ReleaseMode)
 	E := gin.Default()
 
-	E.Use(middlewares.Auth(global.Config.JwtKey))
+	auth, err := middlewares.Auth()
+	if err != nil {
+		return err
+	}
+	E.Use(auth)
 
 	E.Use(gateway.Proxy(&gateway.ApiConf{
 		Addr:      global.Config.Addr,
