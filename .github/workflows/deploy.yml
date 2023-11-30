@@ -20,6 +20,12 @@ jobs:
           echo LATEST=${URL}:latest >> $GITHUB_OUTPUT
           echo VERSION=${URL}:${GITHUB_REF/refs\/tags\//} >> $GITHUB_OUTPUT
 
+      - name: Build Site
+        run: |
+          cd web
+          pnpm install --frozen-lockfile
+          pnpm run build
+
       - name: Build Binary
         env:
           GOPRIVATE: github.com/ncuhome
