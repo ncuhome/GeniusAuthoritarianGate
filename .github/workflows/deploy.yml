@@ -24,7 +24,7 @@ jobs:
         env:
           GOPRIVATE: github.com/ncuhome
           CGO_ENABLED: 0
-        run: go build -gcflags=-trimpath=$GOPATH -asmflags=-trimpath=$GOPATH -ldflags '-extldflags "-static" -s -w' -o runner ./cmd/gate
+        run: go build -gcflags=-trimpath=$GOPATH -asmflags=-trimpath=$GOPATH -ldflags '-extldflags "-static" -s -w' -o runner -tags="nomsgpack" ./cmd/gate
 
       - name: Build the Docker image
         run: |
