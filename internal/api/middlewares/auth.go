@@ -31,7 +31,7 @@ func Auth() (gin.HandlerFunc, error) {
 		case "/login":
 			token, ok := c.GetQuery("token")
 			if !ok {
-				tokenCookie, err := c.Cookie("refresh_token")
+				tokenCookie, err := c.Cookie(util.RefreshTokenCookieKey)
 				if err != nil || tokenCookie == "" {
 					util.GoGeniusLogin(c)
 				} else {
@@ -66,7 +66,7 @@ func Auth() (gin.HandlerFunc, error) {
 				}
 			}
 
-			accessToken, err := c.Cookie("accessToken")
+			accessToken, err := c.Cookie(util.AccessTokenCookieKey)
 			if err != nil || accessToken == "" {
 				log.Warnln("无法获取 access cookie:", err)
 			} else {
@@ -79,7 +79,7 @@ func Auth() (gin.HandlerFunc, error) {
 			}
 
 			// Refresh accessToken
-			refreshToken, err := c.Cookie("refreshToken")
+			refreshToken, err := c.Cookie(util.RefreshTokenCookieKey)
 			if err != nil || accessToken == "" {
 				log.Warnln("无法获取 refresh cookie:", err)
 			} else {
