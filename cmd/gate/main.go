@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ncuhome/GeniusAuthoritarianGate/internal/api/gateway"
+	"github.com/ncuhome/GeniusAuthoritarianGate/internal/gateway"
 	log "github.com/sirupsen/logrus"
 )
 
