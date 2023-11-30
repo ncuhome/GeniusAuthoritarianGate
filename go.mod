@@ -5,6 +5,8 @@ go 1.21.4
 require (
 	github.com/Mmx233/EnvConfig v0.0.2
 	github.com/Mmx233/Gateway/v2 v2.0.6
+	github.com/Mmx233/GinWebServe v1.0.4
+	github.com/Mmx233/config v0.1.0
 	github.com/Mmx233/tool v0.7.3
 	github.com/gin-gonic/gin v1.9.1
 	github.com/ncuhome/GeniusAuthoritarianClient v1.1.5
@@ -15,7 +17,6 @@ require (
 )
 
 require (
-	github.com/Mmx233/GinWebServe v1.0.4 // indirect
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.1 // indirect

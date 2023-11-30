@@ -1,7 +1,6 @@
 package global
 
 import (
-	"github.com/Mmx233/EnvConfig"
 	"strings"
 )
 
@@ -23,9 +22,7 @@ var Config _Config
 
 var WhiteListPath []string
 
-func initConfig() {
-	EnvConfig.Load("", &Config)
-
+func fillDefaultConfig() {
 	if Config.Timeout == 0 {
 		Config.Timeout = 30
 	}

@@ -4,6 +4,8 @@ github.com/Mmx233/Gateway/v2 v2.0.6 h1:khTMGz7kipu5OFij3+AhsVHarOY0JyswXbtUbe0Oz
 github.com/Mmx233/Gateway/v2 v2.0.6/go.mod h1:ft2UJaIIPdNTBtpuF3s5GInFNVP9VIfrOZWXR0kVVns=
 github.com/Mmx233/GinWebServe v1.0.4 h1:vgR7bL5hrqernK8sNIvjfK9WNR3Mz0LFdI7Z/7hp0bQ=
 github.com/Mmx233/GinWebServe v1.0.4/go.mod h1:ZkmwAvVXrIo8lGM44oAN+PaZNU+sbxmP2zmze77LfhY=
+github.com/Mmx233/config v0.1.0 h1:nqZWr4FKmSXVsl21QX/1VH1spCEA+3PuzeyGDkQ43jU=
+github.com/Mmx233/config v0.1.0/go.mod h1:ge+JBtKrLTGVE26Xx2LDl4s0QuCcddDabuEolr26PyQ=
 github.com/Mmx233/tool v0.7.3 h1:a9uB8Fd7qE+sKck0lH8ZKNyc1vkb3rasXD0WUM5nuVA=
 github.com/Mmx233/tool v0.7.3/go.mod h1:pCKnFmN2yf3u58YjANsQ8261SxI/c8/0wiZhptjRsOk=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
