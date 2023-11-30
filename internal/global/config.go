@@ -5,7 +5,7 @@ import (
 )
 
 type _Config struct {
-	GeniusAuthHost string
+	GeniusAuthHost string `config:"omitempty"`
 
 	Addr string
 	// default 30s
