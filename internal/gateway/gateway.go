@@ -15,12 +15,7 @@ func Run(addr ...string) error {
 	gin.SetMode(gin.ReleaseMode)
 	E := gin.Default()
 
-	auth, err := middlewares.Auth()
-	if err != nil {
-		return err
-	}
-	E.Use(auth)
-	E.Use(middlewares.LoginWeb())
+	E.Use(middlewares.Auth(), middlewares.LoginWeb())
 
 	api := E.Group("login/api")
 	api.POST("/", controllers.Login)

@@ -9,19 +9,19 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"strings"
 )
 
-func Auth() (gin.HandlerFunc, error) {
+func Auth() gin.HandlerFunc {
 	rpcClient, err := refreshTokenRpc.NewRpc("v.ncuos.com:443", &refreshTokenRpc.Config{
 		AppCode:   global.Config.AppCode,
 		AppSecret: global.Config.AppSecret,
 	})
 	if err != nil {
-		return nil, err
+		log.Fatalln(err)
 	}
 	return func(c *gin.Context) {
-		if c.FullPath() != "" {
-			// 跳过 api
+		if strings.HasPrefix(c.Request.URL.Path, "/login/") {
 			return
 		}
 
@@ -68,5 +68,5 @@ func Auth() (gin.HandlerFunc, error) {
 		}
 
 		util.GoGeniusLogin(c)
-	}, nil
+	}
 }
