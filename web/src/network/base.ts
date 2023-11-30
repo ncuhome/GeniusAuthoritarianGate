@@ -21,6 +21,11 @@ export function apiV1ErrorHandler(err: AxiosError<any>): any {
   return err;
 }
 
+api.interceptors.request.use((config) => {
+  config.headers["Content-Type"] = "application/x-www-form-urlencoded";
+  return config;
+});
+
 api.interceptors.response.use(undefined, (err: AxiosError<any>) => {
   return Promise.reject(apiV1ErrorHandler(err));
 });
