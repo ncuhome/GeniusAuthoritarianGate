@@ -32,7 +32,7 @@ func Auth() (gin.HandlerFunc, error) {
 		case "/login":
 			token, ok := c.GetQuery("token")
 			if !ok {
-				tokenCookie, err := c.Cookie("token")
+				tokenCookie, err := c.Cookie("refresh_token")
 				if err != nil || tokenCookie == "" {
 					util.GoGeniusLogin(c)
 				} else {
@@ -58,7 +58,7 @@ func Auth() (gin.HandlerFunc, error) {
 
 			// refreshToken 不能一直发送到服务端，但是此处没有前端不好写，先临时这样处理
 			c.SetCookie("refreshToken", gaRes.Data.RefreshToken, int(validate), "", "", true, true)
-			c.SetCookie("accessToken", gaRes.Data.AccessToken, int(time.Minute*5), "", "", true, true)
+			c.SetCookie("accessToken", gaRes.Data.AccessToken, int((time.Minute * 5).Seconds()), "", "", true, true)
 			c.Redirect(302, "/")
 		default:
 			for _, whiteListPath := range global.WhiteListPath {
@@ -92,7 +92,7 @@ func Auth() (gin.HandlerFunc, error) {
 						return
 					}
 				} else {
-					c.SetCookie("accessToken", result.AccessToken, int(time.Minute*5), "", "", true, true)
+					c.SetCookie("accessToken", result.AccessToken, int((time.Minute * 5).Seconds()), "", "", true, true)
 					return
 				}
 			}
