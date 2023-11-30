@@ -47,7 +47,7 @@ func Auth() gin.HandlerFunc {
 		// Refresh accessToken
 
 		refreshToken, err := util.GetRefreshToken(c)
-		if err != nil || accessToken == "" {
+		if err != nil || refreshToken == "" {
 			log.Warnln("无法获取 refresh cookie:", err)
 		} else {
 			result, err := rpcClient.RefreshToken(context.Background(), refreshToken)
