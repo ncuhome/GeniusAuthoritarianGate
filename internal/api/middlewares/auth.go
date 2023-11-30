@@ -26,7 +26,6 @@ func Auth() (gin.HandlerFunc, error) {
 	if err != nil {
 		return nil, err
 	}
-	validate := int64((time.Duration(global.Config.LoginValidate) * time.Hour * 24).Seconds())
 	return func(c *gin.Context) {
 		switch c.Request.URL.Path {
 		case "/login":
@@ -44,7 +43,7 @@ func Auth() (gin.HandlerFunc, error) {
 				Token:     token,
 				ClientIp:  c.ClientIP(),
 				GrantType: "refresh_token",
-				Valid:     validate,
+				Valid:     int64((time.Duration(global.Config.LoginValidate) * time.Hour * 24).Seconds()),
 			})
 			if err != nil {
 				log.Errorln("GeniusAuth 身份校验异常:", err)
@@ -57,8 +56,8 @@ func Auth() (gin.HandlerFunc, error) {
 			}
 
 			// refreshToken 不能一直发送到服务端，但是此处没有前端不好写，先临时这样处理
-			c.SetCookie("refreshToken", gaRes.Data.RefreshToken, int(validate), "", "", true, true)
-			c.SetCookie("accessToken", gaRes.Data.AccessToken, int((time.Minute * 5).Seconds()), "", "", true, true)
+			util.SetRefreshToken(c, gaRes.Data.RefreshToken)
+			util.SetAccessToken(c, gaRes.Data.AccessToken)
 			c.Redirect(302, "/")
 		default:
 			for _, whiteListPath := range global.WhiteListPath {
@@ -92,7 +91,7 @@ func Auth() (gin.HandlerFunc, error) {
 						return
 					}
 				} else {
-					c.SetCookie("accessToken", result.AccessToken, int((time.Minute * 5).Seconds()), "", "", true, true)
+					util.SetAccessToken(c, result.AccessToken)
 					return
 				}
 			}
