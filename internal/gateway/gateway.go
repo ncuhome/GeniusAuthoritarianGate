@@ -19,6 +19,9 @@ func Run(addr ...string) error {
 		return err
 	}
 	E.Use(auth)
+	E.Use(middlewares.LoginWeb())
+
+	api := E.Group("login/api")
 
 	E.Use(gateway.Proxy(&gateway.ApiConf{
 		Addr:      global.Config.Addr,
