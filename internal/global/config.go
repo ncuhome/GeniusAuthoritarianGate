@@ -9,6 +9,7 @@ type _Config struct {
 	Addr string
 	// default 30s
 	Timeout uint `config:"omitempty"`
+	AesKey  string
 
 	// default 7d
 	LoginValidate uint   `config:"omitempty"`
