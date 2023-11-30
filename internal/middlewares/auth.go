@@ -53,16 +53,12 @@ func Auth() gin.HandlerFunc {
 			result, err := rpcClient.RefreshToken(context.Background(), refreshToken)
 			if err != nil {
 				if status.Code(err) != codes.Unauthenticated {
-					log.Errorln("刷新 token 异常:", err)
-					c.String(500, "刷新 token 异常")
-					return
+					log.Errorln("刷新 access token 异常:", err)
 				}
 			} else {
 				err = util.SetAccessToken(c, result.AccessToken)
 				if err != nil {
 					log.Errorln("设置 access token 失败:", err)
-					c.String(500, "编码 access token 失败")
-					return
 				}
 				return
 			}
