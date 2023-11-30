@@ -13,12 +13,7 @@ import (
 func Login(c *gin.Context) {
 	token, ok := c.GetPostForm("token")
 	if !ok || token == "" {
-		tokenCookie, err := util.GetRefreshToken(c)
-		if err != nil || tokenCookie == "" {
-			callback.Error(c, callback.ErrLoginNeeded, err)
-		} else {
-			callback.Default(c)
-		}
+		callback.Error(c, callback.ErrLoginNeeded)
 		return
 	}
 
@@ -29,7 +24,7 @@ func Login(c *gin.Context) {
 		Valid:     int64((time.Duration(global.Config.LoginValidate) * time.Hour * 24).Seconds()),
 	})
 	if err != nil {
-		callback.ErrorWithTip(c, callback.ErrLoginFailed, "身份校验异常", err)
+		callback.ErrorWithTip(c, callback.ErrLoginFailed, "调用 GeniusAuth 身份校验异常", err)
 		return
 	} else if gaRes.Code != 0 {
 		callback.ErrorWithTip(c, callback.ErrLoginFailed, gaRes.Msg, err)
