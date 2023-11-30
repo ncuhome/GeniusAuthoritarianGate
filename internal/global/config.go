@@ -2,11 +2,23 @@ package global
 
 import (
 	"github.com/Mmx233/EnvConfig"
-	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global/models"
 	"strings"
 )
 
-var Config models.Config
+type _Config struct {
+	Addr string
+	// default 30s
+	Timeout uint `config:"omitempty"`
+
+	// default 7d
+	LoginValidate uint   `config:"omitempty"`
+	WhiteListPath string `config:"omitempty"`
+
+	AppCode   string
+	AppSecret string
+}
+
+var Config _Config
 
 var WhiteListPath []string
 
