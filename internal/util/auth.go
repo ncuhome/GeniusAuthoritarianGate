@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/pkg/aes"
@@ -8,7 +9,7 @@ import (
 )
 
 func GoGeniusLogin(c *gin.Context) {
-	c.Redirect(302, "https://v.ncuos.com/?appCode="+global.Config.AppCode)
+	c.Redirect(302, fmt.Sprintf("https://%s/?appCode=%s", global.Config.GeniusAuthHost, global.Config.AppCode))
 	c.Abort()
 }
 

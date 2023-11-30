@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/util"
@@ -13,7 +14,7 @@ import (
 )
 
 func Auth() gin.HandlerFunc {
-	rpcClient, err := refreshTokenRpc.NewRpc("v.ncuos.com:443", &refreshTokenRpc.Config{
+	rpcClient, err := refreshTokenRpc.NewRpc(fmt.Sprintf("%s:443", global.Config.GeniusAuthHost), &refreshTokenRpc.Config{
 		AppCode:   global.Config.AppCode,
 		AppSecret: global.Config.AppSecret,
 	})

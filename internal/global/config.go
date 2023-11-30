@@ -5,6 +5,8 @@ import (
 )
 
 type _Config struct {
+	GeniusAuthHost string
+
 	Addr string
 	// default 30s
 	Timeout uint `config:"omitempty"`
@@ -23,6 +25,10 @@ var Config _Config
 var WhiteListPath []string
 
 func fillDefaultConfig() {
+	if Config.GeniusAuthHost == "" {
+		Config.GeniusAuthHost = "v.ncuos.com"
+	}
+
 	if Config.Timeout == 0 {
 		Config.Timeout = 30
 	}
