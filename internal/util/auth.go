@@ -51,3 +51,8 @@ func GetAccessToken(c *gin.Context) (string, error) {
 	}
 	return aes.DecryptString(tokenStr)
 }
+
+func ClearCookie(c *gin.Context) {
+	c.SetCookie(RefreshTokenCookieKey, "", -1, "", "", true, true)
+	c.SetCookie(AccessTokenCookieKey, "", -1, "", "", true, true)
+}

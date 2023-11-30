@@ -68,6 +68,7 @@ func Auth() gin.HandlerFunc {
 			}
 		}
 
+		util.ClearCookie(c)
 		util.GoGeniusLogin(c)
 	}
 }
