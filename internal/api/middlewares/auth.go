@@ -19,7 +19,7 @@ func Auth() (gin.HandlerFunc, error) {
 		global.Config.AppCode, global.Config.AppSecret,
 		util.Http.Client,
 	)
-	rpcClient, err := refreshTokenRpc.NewRpc("genius-token-rpc.ncuos.com:443", &refreshTokenRpc.Config{
+	rpcClient, err := refreshTokenRpc.NewRpc("v.ncuos.com:443", &refreshTokenRpc.Config{
 		AppCode:   global.Config.AppCode,
 		AppSecret: global.Config.AppSecret,
 	})
