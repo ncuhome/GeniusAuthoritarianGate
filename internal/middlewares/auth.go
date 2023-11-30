@@ -31,7 +31,7 @@ func Auth() (gin.HandlerFunc, error) {
 		case "/login":
 			token, ok := c.GetQuery("token")
 			if !ok {
-				tokenCookie, err := c.Cookie(util.RefreshTokenCookieKey)
+				tokenCookie, err := util.GetRefreshToken(c)
 				if err != nil || tokenCookie == "" {
 					util.GoGeniusLogin(c)
 				} else {
@@ -56,8 +56,18 @@ func Auth() (gin.HandlerFunc, error) {
 			}
 
 			// refreshToken 不能一直发送到服务端，但是此处没有前端不好写，先临时这样处理
-			util.SetRefreshToken(c, gaRes.Data.RefreshToken)
-			util.SetAccessToken(c, gaRes.Data.AccessToken)
+			err = util.SetRefreshToken(c, gaRes.Data.RefreshToken)
+			if err != nil {
+				log.Errorln("设置 refresh token 失败:", err)
+				c.String(500, "编码 refresh token 失败")
+				return
+			}
+			err = util.SetAccessToken(c, gaRes.Data.AccessToken)
+			if err != nil {
+				log.Errorln("设置 access token 失败:", err)
+				c.String(500, "编码 access token 失败")
+				return
+			}
 			c.Redirect(302, "/")
 		default:
 			for _, whiteListPath := range global.WhiteListPath {
@@ -66,7 +76,7 @@ func Auth() (gin.HandlerFunc, error) {
 				}
 			}
 
-			accessToken, err := c.Cookie(util.AccessTokenCookieKey)
+			accessToken, err := util.GetAccessToken(c)
 			if err != nil || accessToken == "" {
 				log.Warnln("无法获取 access cookie:", err)
 			} else {
@@ -79,7 +89,7 @@ func Auth() (gin.HandlerFunc, error) {
 			}
 
 			// Refresh accessToken
-			refreshToken, err := c.Cookie(util.RefreshTokenCookieKey)
+			refreshToken, err := util.GetRefreshToken(c)
 			if err != nil || accessToken == "" {
 				log.Warnln("无法获取 refresh cookie:", err)
 			} else {
@@ -91,7 +101,12 @@ func Auth() (gin.HandlerFunc, error) {
 						return
 					}
 				} else {
-					util.SetAccessToken(c, result.AccessToken)
+					err = util.SetAccessToken(c, result.AccessToken)
+					if err != nil {
+						log.Errorln("设置 access token 失败:", err)
+						c.String(500, "编码 access token 失败")
+						return
+					}
 					return
 				}
 			}

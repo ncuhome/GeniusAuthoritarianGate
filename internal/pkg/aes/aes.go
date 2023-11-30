@@ -8,6 +8,7 @@ import (
 	"errors"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
 	log "github.com/sirupsen/logrus"
+	"unsafe"
 )
 
 var key []byte
@@ -60,6 +61,14 @@ func Encrypt(str []byte) ([]byte, error) {
 	return output, nil
 }
 
+func EncryptString(str string) (string, error) {
+	output, err := Encrypt(unsafe.Slice(unsafe.StringData(str), len(str)))
+	if err != nil {
+		return "", err
+	}
+	return unsafe.String(unsafe.SliceData(output), len(output)), nil
+}
+
 func Decrypt(str []byte) ([]byte, error) {
 	ciphertext := make([]byte, base64.URLEncoding.DecodedLen(len(str)))
 	n, err := base64.URLEncoding.Decode(ciphertext, str)
@@ -82,4 +91,12 @@ func Decrypt(str []byte) ([]byte, error) {
 	blockMode.CryptBlocks(decrypted, ciphertext)
 
 	return pkcs7UnPadding(decrypted)
+}
+
+func DecryptString(str string) (string, error) {
+	output, err := Decrypt(unsafe.Slice(unsafe.StringData(str), len(str)))
+	if err != nil {
+		return "", err
+	}
+	return unsafe.String(unsafe.SliceData(output), len(output)), nil
 }
