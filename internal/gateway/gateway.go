@@ -3,6 +3,7 @@ package gateway
 import (
 	gateway "github.com/Mmx233/Gateway/v2"
 	"github.com/gin-gonic/gin"
+	"github.com/ncuhome/GeniusAuthoritarianGate/internal/api/controllers"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/middlewares"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/util"
@@ -22,6 +23,7 @@ func Run(addr ...string) error {
 	E.Use(middlewares.LoginWeb())
 
 	api := E.Group("login/api")
+	api.POST("/", controllers.Login)
 
 	E.Use(gateway.Proxy(&gateway.ApiConf{
 		Addr:      global.Config.Addr,
