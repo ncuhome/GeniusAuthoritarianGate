@@ -11,7 +11,7 @@ import (
 )
 
 func Login(c *gin.Context) {
-	token, ok := c.GetQuery("token")
+	token, ok := c.GetPostForm("token")
 	if !ok || token == "" {
 		tokenCookie, err := util.GetRefreshToken(c)
 		if err != nil || tokenCookie == "" {
