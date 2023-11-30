@@ -4,6 +4,8 @@ GeniusAuthoritarian 单体门控程序
 
 将会占用 `/login/` 路由段，并设置 `refreshToken`、`accessToken` cookie
 
+创建应用时回调请指向 `/login/`
+
 ## 使用
 
 镜像地址：
