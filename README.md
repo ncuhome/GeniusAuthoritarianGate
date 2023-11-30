@@ -2,7 +2,7 @@
 
 GeniusAuthoritarian 单体门控程序
 
-这个简单的门控并不能规范地处理 token，所以安全度并不高。且在出错时暂时没有对用户进行友好的提示，请谨慎使用
+将会占用 `/login/` 路由段，并设置 `refreshToken`、`accessToken` cookie
 
 ## 使用
 
