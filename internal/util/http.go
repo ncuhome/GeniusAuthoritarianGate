@@ -3,18 +3,22 @@ package util
 import (
 	"github.com/Mmx233/tool"
 	"github.com/ncuhome/GeniusAuthoritarianGate/internal/global"
+	"net"
+	"net/http"
 	"time"
 )
 
 var Http *tool.Http
 
 func init() {
-	defaultTimeout := time.Second * time.Duration(global.Config.Timeout)
+	timeout := time.Second * time.Duration(global.Config.Timeout)
 
 	Http = tool.NewHttpTool(tool.GenHttpClient(&tool.HttpClientOptions{
-		Transport: tool.GenHttpTransport(&tool.HttpTransportOptions{
-			Timeout: defaultTimeout,
-		}),
-		Timeout: defaultTimeout,
+		Transport: &http.Transport{
+			DialContext: (&net.Dialer{
+				Timeout: timeout,
+			}).DialContext,
+		},
+		Timeout: timeout,
 	}))
 }

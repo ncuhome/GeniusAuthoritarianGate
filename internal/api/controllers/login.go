@@ -17,27 +17,24 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	gaRes, err := ga.Client.VerifyToken(&geniusAuth.RequestVerifyToken{
+	result, err := ga.Client.VerifyToken(&geniusAuth.RequestVerifyToken{
 		Token:     token,
 		ClientIp:  c.ClientIP(),
 		GrantType: "refresh_token",
 		Valid:     int64((time.Duration(global.Config.LoginValidate) * time.Hour * 24).Seconds()),
 	})
 	if err != nil {
-		callback.ErrorWithTip(c, callback.ErrLoginFailed, "调用 GeniusAuth 身份校验异常", err)
-		return
-	} else if gaRes.Code != 0 {
-		callback.ErrorWithTip(c, callback.ErrLoginFailed, gaRes.Msg, err)
+		callback.ErrorWithTip(c, callback.ErrLoginFailed, "GeniusAuth 身份校验异常", err)
 		return
 	}
 
-	err = util.SetRefreshToken(c, gaRes.Data.RefreshToken)
+	err = util.SetRefreshToken(c, result.RefreshToken)
 	if err != nil {
 		callback.Error(c, callback.ErrUnexpected, err)
 		return
 	}
 
-	err = util.SetAccessToken(c, gaRes.Data.AccessToken)
+	err = util.SetAccessToken(c, result.AccessToken)
 	if err != nil {
 		callback.Error(c, callback.ErrUnexpected, err)
 		return
