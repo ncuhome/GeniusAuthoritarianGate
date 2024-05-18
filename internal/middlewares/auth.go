@@ -18,6 +18,9 @@ func Auth() gin.HandlerFunc {
 	if err != nil {
 		log.Fatalln("create GeniusAuth jwt parser failed:", err)
 	}
+	parser.OnError = func(err error) {
+		log.Errorln("token parser error:", err)
+	}
 
 	return func(c *gin.Context) {
 		if strings.HasPrefix(c.Request.URL.Path, "/login/") {
