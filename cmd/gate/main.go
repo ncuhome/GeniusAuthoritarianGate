@@ -8,6 +8,6 @@ import (
 func main() {
 	log.Infoln("Sys Boost")
 	if err := gateway.Run(":80"); err != nil {
-		log.Fatalln("启动监听失败:", err)
+		log.Fatalln("listen ::80 failed:", err)
 	}
 }

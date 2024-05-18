@@ -30,7 +30,7 @@ func fillDefaultConfig() {
 		Config.GeniusAuthHost = "v.ncuos.com"
 	}
 	if Config.GeniusAuthAppRpcAddr == "" {
-		Config.GeniusAuthAppRpcAddr = "v-app.ncuos.com"
+		Config.GeniusAuthAppRpcAddr = "v-app.ncuos.com:443"
 	}
 
 	if Config.Timeout == 0 {

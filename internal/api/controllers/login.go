@@ -24,7 +24,7 @@ func Login(c *gin.Context) {
 		Valid:     int64((time.Duration(global.Config.LoginValidate) * time.Hour * 24).Seconds()),
 	})
 	if err != nil {
-		callback.ErrorWithTip(c, callback.ErrLoginFailed, "GeniusAuth 身份校验异常", err)
+		callback.ErrorWithTip(c, callback.ErrLoginFailed, "GeniusAuth login request verify failed", err)
 		return
 	}
 

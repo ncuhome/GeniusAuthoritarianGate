@@ -16,7 +16,7 @@ import (
 func Auth() gin.HandlerFunc {
 	parser, err := ga.Rpc.NewJwtParser()
 	if err != nil {
-		log.Fatalln("Create GeniusAuth jwt parser failed:", err)
+		log.Fatalln("create GeniusAuth jwt parser failed:", err)
 	}
 
 	return func(c *gin.Context) {
@@ -32,11 +32,11 @@ func Auth() gin.HandlerFunc {
 
 		accessToken, err := util.GetAccessToken(c)
 		if err != nil || accessToken == "" {
-			log.Warnln("无法获取 access cookie:", err)
+			log.Warnln("get access cookie failed:", err)
 		} else {
 			_, valid, err := parser.ParseAccessToken(accessToken)
 			if err != nil || !valid {
-				log.Warnln("验证 accessToken 失败:", err)
+				log.Warnln("validate accessToken failed:", err)
 			} else {
 				return
 			}
@@ -45,19 +45,19 @@ func Auth() gin.HandlerFunc {
 		// Refresh accessToken
 		refreshToken, err := util.GetRefreshToken(c)
 		if err != nil || refreshToken == "" {
-			log.Warnln("Get refresh cookie failed:", err)
+			log.Warnln("get refresh cookie failed:", err)
 		} else {
 			result, err := ga.Rpc.RefreshToken(context.Background(), &appProto.RefreshTokenRequest{
 				Token: refreshToken,
 			})
 			if err != nil {
 				if status.Code(err) != codes.Unauthenticated {
-					log.Errorln("Refresh access token failed:", err)
+					log.Errorln("refresh access token failed:", err)
 				}
 			} else {
 				err = util.SetAccessToken(c, result.AccessToken)
 				if err != nil {
-					log.Errorln("Set access token failed:", err)
+					log.Errorln("set access token failed:", err)
 				}
 				return
 			}
