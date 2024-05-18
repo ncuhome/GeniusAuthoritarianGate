@@ -57,10 +57,6 @@ github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9G
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/ncuhome/GeniusAuthoritarianClient v1.3.2 h1:qIluZiQvbCE4cB88BGeyZ16HRCksSPZ90EVPG9IHe04=
 github.com/ncuhome/GeniusAuthoritarianClient v1.3.2/go.mod h1:L1eT12Lwhx0IJgVeCyfyKFhCEPdVsReTcDJeWUzqbCY=
-github.com/ncuhome/GeniusAuthoritarianProtos v0.0.4 h1:CzlRdPZvUJTWT+bLxF7Miy99RWHG0P8d1+Mq9s8+nbQ=
-github.com/ncuhome/GeniusAuthoritarianProtos v0.0.4/go.mod h1:q8WcqyGzp0pBuoWWAQJhTucvMiPkh+oAeDMIClZSQlc=
-github.com/ncuhome/GeniusAuthoritarianRefreshTokenRpc v0.0.2 h1:HpvC16u1UfNCrK0lhS73+YzzOWoNO3jJTzeU0llnlBA=
-github.com/ncuhome/GeniusAuthoritarianRefreshTokenRpc v0.0.2/go.mod h1:TUcyJsxflPa+u2ELqXseYVP1393IVoh115uNBF95fRA=
 github.com/pelletier/go-toml/v2 v2.2.2 h1:aYUidT7k73Pcl9nb2gScu7NSrKCSHIDE89b3+6Wq+LM=
 github.com/pelletier/go-toml/v2 v2.2.2/go.mod h1:1t835xjRzz80PqgE6HHgN2JOsmgYu/h4qDAS4n929Rs=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

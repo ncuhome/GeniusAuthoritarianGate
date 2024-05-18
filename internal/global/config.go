@@ -5,7 +5,8 @@ import (
 )
 
 type _Config struct {
-	GeniusAuthHost string `config:"omitempty"`
+	GeniusAuthHost       string `config:"omitempty"`
+	GeniusAuthAppRpcAddr string `config:"omitempty"`
 
 	Addr string
 	// default 30s
@@ -27,6 +28,9 @@ var WhiteListPath []string
 func fillDefaultConfig() {
 	if Config.GeniusAuthHost == "" {
 		Config.GeniusAuthHost = "v.ncuos.com"
+	}
+	if Config.GeniusAuthAppRpcAddr == "" {
+		Config.GeniusAuthAppRpcAddr = "v-app.ncuos.com"
 	}
 
 	if Config.Timeout == 0 {
